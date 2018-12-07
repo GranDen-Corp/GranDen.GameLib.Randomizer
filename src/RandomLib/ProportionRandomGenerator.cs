@@ -14,6 +14,10 @@ namespace RandomLib
     {
         private readonly RandomSource _rng;
 
+        /// <summary>
+        /// Create the RNG object
+        /// </summary>
+        /// <param name="randomSource">optional, assigned it if you need controllable results like running unit test.</param>
         public ProportionRandomGenerator(RandomSource randomSource = null)
         {
             _rng = randomSource ?? Util.DefaultRandomSource(true);
@@ -84,10 +88,12 @@ namespace RandomLib
             while (times > 0)
             {
                 var luckyOne =
-                    ProbabilityEntries.ElementAt(Categorical.Sample(_rng, probabilityEntities.Values.ToArray()));
-                results.Add(luckyOne.Key);
+                    probabilityEntities.ElementAt(
+                        Categorical.Sample(_rng, probabilityEntities.Values.ToArray())).Key;
+                
+                results.Add(luckyOne);
+                probabilityEntities.Remove(luckyOne);
                 times--;
-                probabilityEntities.Remove(luckyOne.Key);
             }
 
             return results;

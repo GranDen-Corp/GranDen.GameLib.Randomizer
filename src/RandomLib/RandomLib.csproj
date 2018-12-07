@@ -5,6 +5,13 @@
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <Company>GranDen Inc.</Company>
     <Authors>Isak Pao</Authors>
+    <Version>1.0.1</Version>
+    <Description>Random number generator and some utility functions for randomly chose items in collection</Description>
+    <PackageReleaseNotes>v1.0.1 : Fix Non-duplicated consecutive draws bug</PackageReleaseNotes>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DocumentationFile>D:\repo\granden\RandomLib\src\RandomLib\RandomLib.xml</DocumentationFile>
   </PropertyGroup>
 
   <ItemGroup>

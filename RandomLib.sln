@@ -7,6 +7,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{63AAB987-608
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RandomLib", "src\RandomLib\RandomLib.csproj", "{010BEF8A-F484-4A35-B84E-1B533CEF6908}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{2BF0007C-3830-4DB6-8A68-E4A222614C44}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RandomLibTest", "test\RandomLibTest\RandomLibTest.csproj", "{A297D5C8-4CCB-409D-B325-65784CB7ADD4}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -17,12 +21,17 @@ Global
 		{010BEF8A-F484-4A35-B84E-1B533CEF6908}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{010BEF8A-F484-4A35-B84E-1B533CEF6908}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{010BEF8A-F484-4A35-B84E-1B533CEF6908}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A297D5C8-4CCB-409D-B325-65784CB7ADD4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A297D5C8-4CCB-409D-B325-65784CB7ADD4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A297D5C8-4CCB-409D-B325-65784CB7ADD4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A297D5C8-4CCB-409D-B325-65784CB7ADD4}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{010BEF8A-F484-4A35-B84E-1B533CEF6908} = {63AAB987-6084-45EE-B6EE-51C2946BAB9B}
+		{A297D5C8-4CCB-409D-B325-65784CB7ADD4} = {2BF0007C-3830-4DB6-8A68-E4A222614C44}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {D42BF830-188E-40F6-9F55-425572430270}
