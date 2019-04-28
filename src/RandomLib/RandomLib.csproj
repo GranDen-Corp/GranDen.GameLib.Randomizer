@@ -5,13 +5,15 @@
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <Company>GranDen Inc.</Company>
     <Authors>Isak Pao</Authors>
-    <Version>1.0.1</Version>
+    <Version>1.0.2</Version>
     <Description>Random number generator and some utility functions for randomly chose items in collection</Description>
-    <PackageReleaseNotes>v1.0.1 : Fix Non-duplicated consecutive draws bug</PackageReleaseNotes>
-    <Copyright>Copyright (c) 2018 GranDen Corp.(狂點軟體開發)</Copyright>
+    <PackageReleaseNotes>v1.0.2 : Use new symbol packages (.snupkg) format.</PackageReleaseNotes>
+    <Copyright>Copyright (c) 2019 GranDen Corp.(狂點軟體開發)</Copyright>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <RepositoryUrl>https://github.com/GranDen-Corp/RandomLib</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
+    <IncludeSymbols>true</IncludeSymbols>
+    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
     <PackageTags />
   </PropertyGroup>
 

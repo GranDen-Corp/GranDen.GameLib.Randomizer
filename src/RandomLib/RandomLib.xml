@@ -64,5 +64,17 @@
             <param name="rng"></param>
             <returns></returns>
         </member>
+        <member name="T:RandomLib.Util">
+            <summary>
+            Utility class
+            </summary>
+        </member>
+        <member name="M:RandomLib.Util.DefaultRandomSource(System.Boolean)">
+            <summary>
+            Create a default Math.NET Random seed source.
+            </summary>
+            <param name="threadSafe">set to true to prevent generate the same random value on multi-thread environment.</param>
+            <returns></returns>
+        </member>
     </members>
 </doc>
