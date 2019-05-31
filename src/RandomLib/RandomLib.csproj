@@ -5,9 +5,9 @@
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <Company>GranDen Inc.</Company>
     <Authors>Isak Pao</Authors>
-    <Version>1.0.3</Version>
+    <Version>1.0.4</Version>
     <Description>Random number generator and some utility functions for randomly chose items in collection</Description>
-    <PackageReleaseNotes>v1.0.3 : Enable sourcelink debugging</PackageReleaseNotes>
+    <PackageReleaseNotes>v1.0.4 : Fix document typo</PackageReleaseNotes>
     <Copyright>Copyright (c) 2019 GranDen Corp.(狂點軟體開發)</Copyright>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <RepositoryUrl>https://github.com/GranDen-Corp/RandomLib.git</RepositoryUrl>
@@ -20,6 +20,10 @@
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DocumentationFile>./RandomLib.xml</DocumentationFile>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
     <DocumentationFile>./RandomLib.xml</DocumentationFile>
   </PropertyGroup>
 

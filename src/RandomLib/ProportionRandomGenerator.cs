@@ -29,7 +29,7 @@ namespace RandomLib
         public SortedDictionary<T, double> ProbabilityEntries { get; set; }
 
         /// <summary>
-        /// Select one chose
+        /// Select one random choice
         /// </summary>
         /// <returns></returns>
         public T Draw()
