@@ -5,24 +5,27 @@
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <Company>GranDen Inc.</Company>
     <Authors>Isak Pao</Authors>
-    <Version>1.0.2</Version>
+    <Version>1.0.3</Version>
     <Description>Random number generator and some utility functions for randomly chose items in collection</Description>
-    <PackageReleaseNotes>v1.0.2 : Use new symbol packages (.snupkg) format.</PackageReleaseNotes>
+    <PackageReleaseNotes>v1.0.3 : Enable sourcelink debugging</PackageReleaseNotes>
     <Copyright>Copyright (c) 2019 GranDen Corp.(狂點軟體開發)</Copyright>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
-    <RepositoryUrl>https://github.com/GranDen-Corp/RandomLib</RepositoryUrl>
+    <RepositoryUrl>https://github.com/GranDen-Corp/RandomLib.git</RepositoryUrl>
+    <PublishRepositoryUrl>true</PublishRepositoryUrl>
     <RepositoryType>git</RepositoryType>
     <IncludeSymbols>true</IncludeSymbols>
     <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+    <EmbedUntrackedSources>true</EmbedUntrackedSources>
     <PackageTags />
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <DocumentationFile>D:\repo\granden\RandomLib\src\RandomLib\RandomLib.xml</DocumentationFile>
+    <DocumentationFile>./RandomLib.xml</DocumentationFile>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="MathNet.Numerics" Version="4.7.0" />
+    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.0.0-*" PrivateAssets="All"/>
   </ItemGroup>
 
 </Project>
