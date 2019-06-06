@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using MathNet.Numerics.Distributions;
 using MathNet.Numerics.Random;
@@ -26,12 +27,13 @@ namespace RandomLib
         /// <summary>
         /// Probability distribution data, probability values don't have to sum to a fixed total number.
         /// </summary>
+        [DebuggerBrowsable(DebuggerBrowsableState.Collapsed)]
         public SortedDictionary<T, double> ProbabilityEntries { get; set; }
 
         /// <summary>
         /// Select one random choice
         /// </summary>
-        /// <returns></returns>
+        /// <returns>The chosen one</returns>
         public T Draw()
         {
             var luckyOne = ProbabilityEntries.ElementAt(Categorical.Sample(_rng, ProbabilityEntries.Values.ToArray()));
@@ -41,16 +43,16 @@ namespace RandomLib
         /// <summary>
         /// Consecutively select multiple choices, results may be duplicated
         /// </summary>
-        /// <param name="times">Choose counts</param>
-        /// <returns></returns>
+        /// <param name="times">Draw counts</param>
+        /// <returns>Chosen entries</returns>
         public IEnumerable<T> DuplicatedConsecutiveDraws(int times)
         {
             if (times <= 0)
             {
-                throw new ArgumentException("draw times must be positive!");
+                throw new ArgumentException("Draw times must be positive integer!");
             }
 
-            var categoricalDist = new Categorical(ProbabilityEntries.Values.ToArray(), _rng);
+            var categoricalDist = CreateCategoricalDistribution();
 
             var resultIndexes = new int[times];
             categoricalDist.Samples(resultIndexes);
@@ -61,38 +63,39 @@ namespace RandomLib
             return results;
         }
 
+        private Categorical CreateCategoricalDistribution()
+        {
+            return new Categorical(ProbabilityEntries.Values.ToArray(), _rng);
+        }
+
         /// <summary>
         /// Consecutively select multiple choices and may go on until all items were chosen, results will not duplicated.
         /// </summary>
-        /// <param name="times"></param>
-        /// <returns></returns>
+        /// <param name="times">Draw counts, must be less or equal to original probability entries</param>
+        /// <returns>Chosen entries</returns>
         public IEnumerable<T> NonDuplicatedConsecutiveDraws(int times)
         {
             if (times <= 0)
             {
-                throw new ArgumentException("draw times must be positive!");
+                throw new ArgumentException("Draw times must be positive integer!");
             }
 
             if (times > ProbabilityEntries.Count)
             {
-                throw new ArgumentException("exclusive draw times must be less than origin probability entries");
+                throw new ArgumentException("Exclusive draw times must be less than or equal to original probability entries");
             }
 
-            var probabilityEntities = new SortedDictionary<T, double>();
-            foreach (var kv in ProbabilityEntries)
-            {
-                probabilityEntities.Add(kv.Key, kv.Value);
-            }
+            var copiedProbabilityEntries = new SortedDictionary<T, double>(ProbabilityEntries);
 
             var results = new List<T>(times);
             while (times > 0)
             {
                 var luckyOne =
-                    probabilityEntities.ElementAt(
-                        Categorical.Sample(_rng, probabilityEntities.Values.ToArray())).Key;
-                
+                    copiedProbabilityEntries.ElementAt(
+                        Categorical.Sample(_rng, copiedProbabilityEntries.Values.ToArray())).Key;
+
                 results.Add(luckyOne);
-                probabilityEntities.Remove(luckyOne);
+                copiedProbabilityEntries.Remove(luckyOne);
                 times--;
             }
 
