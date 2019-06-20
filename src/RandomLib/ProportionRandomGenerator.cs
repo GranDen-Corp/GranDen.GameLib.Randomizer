@@ -52,6 +52,12 @@ namespace RandomLib
                 throw new ArgumentException("Draw times must be positive integer!");
             }
 
+            //if we only have one choice...
+            if (ProbabilityEntries.Count == 1)
+            {
+                return Enumerable.Repeat(ProbabilityEntries.First().Key, times);
+            }
+
             var categoricalDist = CreateCategoricalDistribution();
 
             var resultIndexes = new int[times];
@@ -85,7 +91,13 @@ namespace RandomLib
                 throw new ArgumentException("Exclusive draw times must be less than or equal to original probability entries");
             }
 
-            var copiedProbabilityEntries = new SortedDictionary<T, double>(ProbabilityEntries);
+            //if we only have one choice...
+            if (ProbabilityEntries.Count == 1)
+            {
+                return Enumerable.Repeat(ProbabilityEntries.First().Key, times);
+            }
+
+            var copiedProbabilityEntries = new Dictionary<T, double>(ProbabilityEntries);
 
             var results = new List<T>(times);
             while (times > 0)

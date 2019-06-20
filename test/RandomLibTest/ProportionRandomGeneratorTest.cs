@@ -28,14 +28,14 @@ namespace RandomLibTest
                 [prize2] = 50,
                 [prize3] = 0.1,
             };
-            var rng = new RandomLib.ProportionRandomGenerator<Prize>{ ProbabilityEntries = prizeDict };
+            var rng = new RandomLib.ProportionRandomGenerator<Prize> { ProbabilityEntries = prizeDict };
 
             //Act
             var luckyOne = rng.Draw();
             _output.WriteLine($"luckyOne={luckyOne}");
 
             //Assert
-            Assert.True( luckyOne == prize1 || luckyOne == prize2 || luckyOne == prize3);
+            Assert.True(luckyOne == prize1 || luckyOne == prize2 || luckyOne == prize3);
         }
 
         [Fact]
@@ -71,6 +71,24 @@ namespace RandomLibTest
             foreach (var luckyResult in luckyAllResults)
             {
                 Assert.Contains(luckyResult, chosePool);
+            }
+        }
+
+        [Fact]
+        public void TestDuplicatedConsecutiveDrawOnSingleChoice()
+        {
+            //Arrange
+            var parameter = new SortedDictionary<string, double>();
+            parameter.Add("itemOnlyOne", 99.9999);
+            var rng = new RandomLib.ProportionRandomGenerator<string> { ProbabilityEntries = parameter };
+
+            //Act
+            var luckyDrawResults = rng.DuplicatedConsecutiveDraws(10).ToArray();
+
+            //Assert
+            foreach (var lucky in luckyDrawResults)
+            {
+                Assert.Equal("itemOnlyOne", lucky);
             }
         }
 
@@ -116,7 +134,24 @@ namespace RandomLibTest
             }
         }
 
+        [Fact]
+        public void TestNonDuplicatedConsecutiveDrawOnSingleChoice()
+        {
+            //Arrange
+            var parameter = new SortedDictionary<string, double>();
+            parameter.Add("itemOnlyOne", 99.9999);
+            var rng = new RandomLib.ProportionRandomGenerator<string> { ProbabilityEntries = parameter };
+
+            //Act
+            var luckyPartialResults = rng.NonDuplicatedConsecutiveDraws(1).ToArray();
+
+            //Assert
+            Assert.Equal(1, luckyPartialResults.Length);
+            Assert.Equal("itemOnlyOne", luckyPartialResults.First());
+        }
     }
+
+    #region Test Object Class
 
     internal class Prize : IComparable
     {
@@ -141,4 +176,6 @@ namespace RandomLibTest
             return Msg;
         }
     }
+
+    #endregion     
 }

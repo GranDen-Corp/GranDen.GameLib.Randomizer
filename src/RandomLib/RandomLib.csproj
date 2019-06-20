@@ -5,9 +5,9 @@
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <Company>GranDen Inc.</Company>
     <Authors>Isak Pao</Authors>
-    <Version>1.0.6</Version>
+    <Version>1.0.7</Version>
     <Description>Random number generator and some utility functions for randomly chose items in collection via MathNet.Numerics</Description>
-    <PackageReleaseNotes>v1.0.6 : Update MathNet.Numerics to 4.8.0</PackageReleaseNotes>
+    <PackageReleaseNotes>v1.0.7 : Some optimize &#38; Update MathNet.Numerics to v4.8.1</PackageReleaseNotes>
     <Copyright>Copyright (c) 2019 GranDen Corp.(狂點軟體開發)</Copyright>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <RepositoryUrl>https://github.com/GranDen-Corp/RandomLib.git</RepositoryUrl>
@@ -30,7 +30,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="MathNet.Numerics" Version="4.8.0" />
+    <PackageReference Include="MathNet.Numerics" Version="4.8.1" />
     <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.0.0-*" PrivateAssets="All" />
   </ItemGroup>
 
