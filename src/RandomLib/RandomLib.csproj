@@ -1,13 +1,10 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
-
+<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <Company>GranDen Inc.</Company>
     <Authors>Isak Pao</Authors>
-    <Version>1.0.7</Version>
     <Description>Random number generator and some utility functions for randomly chose items in collection via MathNet.Numerics</Description>
-    <PackageReleaseNotes>v1.0.7 : Some optimize &#38; Update MathNet.Numerics to v4.8.1</PackageReleaseNotes>
     <Copyright>Copyright (c) 2019 GranDen Corp.(狂點軟體開發)</Copyright>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <RepositoryUrl>https://github.com/GranDen-Corp/RandomLib.git</RepositoryUrl>
@@ -19,19 +16,17 @@
     <EmbedUntrackedSources>true</EmbedUntrackedSources>
     <PackageTags>rng</PackageTags>
     <PackageProjectUrl>https://www.nuget.org/packages/RandomLib/</PackageProjectUrl>
+    <Version>1.0.7</Version>
+    <PackageReleaseNotes>v1.0.7 : Some optimize &#38; Update MathNet.Numerics to v4.8.1 </PackageReleaseNotes>
   </PropertyGroup>
-
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <DocumentationFile>./RandomLib.xml</DocumentationFile>
   </PropertyGroup>
-
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
     <DocumentationFile>./RandomLib.xml</DocumentationFile>
   </PropertyGroup>
-
   <ItemGroup>
     <PackageReference Include="MathNet.Numerics" Version="4.8.1" />
     <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.0.0-*" PrivateAssets="All" />
   </ItemGroup>
-
 </Project>
