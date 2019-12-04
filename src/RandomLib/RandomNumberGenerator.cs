@@ -27,6 +27,23 @@ namespace RandomLib
         }
 
         /// <summary>
+        /// Generate a random Float from [minValue , maxValue]
+        /// </summary>
+        /// <param name="minValue"></param>
+        /// <param name="maxValue"></param>
+        /// <param name="rng"></param>
+        /// <returns></returns>
+        public static float CreateRandomDouble(float minValue, float maxValue, RandomSource rng = null)
+        {
+            if (rng == null)
+            {
+                rng = Util.DefaultRandomSource(true);
+            }
+
+            return (float) ContinuousUniform.Sample(rng, minValue, maxValue);
+        }
+
+        /// <summary>
         /// Generate a random Double from [minValue , maxValue]
         /// </summary>
         /// <param name="minValue"></param>
@@ -42,7 +59,5 @@ namespace RandomLib
 
             return ContinuousUniform.Sample(rng, minValue, maxValue);
         }
-
-
     }
 }

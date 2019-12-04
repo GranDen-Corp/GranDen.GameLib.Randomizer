@@ -16,8 +16,8 @@
     <EmbedUntrackedSources>true</EmbedUntrackedSources>
     <PackageTags>rng</PackageTags>
     <PackageProjectUrl>https://www.nuget.org/packages/RandomLib/</PackageProjectUrl>
-    <Version>1.0.7</Version>
-    <PackageReleaseNotes>v1.0.7 : Some optimize &#38; Update MathNet.Numerics to v4.8.1 </PackageReleaseNotes>
+    <Version>1.0.8</Version>
+    <PackageReleaseNotes>v1.0.8 : Update MathNet.Numerics to v4.9.0 </PackageReleaseNotes>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <DocumentationFile>./RandomLib.xml</DocumentationFile>
@@ -26,7 +26,7 @@
     <DocumentationFile>./RandomLib.xml</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="MathNet.Numerics" Version="4.8.1" />
-    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.0.0-*" PrivateAssets="All" />
+    <PackageReference Include="MathNet.Numerics" Version="4.9.0" />
+    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.0.0" PrivateAssets="All" />
   </ItemGroup>
 </Project>
