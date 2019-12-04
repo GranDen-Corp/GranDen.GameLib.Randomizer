@@ -37,6 +37,17 @@ namespace RandomLibTest
         [InlineData(0.0, 1.0)]
         [InlineData(1.0, 10.0)]
         [InlineData(-10.0, -1.0)]
+        public void TestRandomFloat(float minValue, float maxValue)
+        {
+            var chosen = RandomLib.RandomNumberGenerator.CreateRandomFloat(minValue, maxValue);
+            _output.WriteLine("chosen= {0}", chosen);
+            Assert.True(chosen >= minValue && chosen <= maxValue);
+        }
+
+        [Theory]
+        [InlineData(0.0, 1.0)]
+        [InlineData(1.0, 10.0)]
+        [InlineData(-10.0, -1.0)]
         public void TestRandomDouble(double minValue, double maxValue)
         {
             var chosen = RandomLib.RandomNumberGenerator.CreateRandomDouble(minValue, maxValue);

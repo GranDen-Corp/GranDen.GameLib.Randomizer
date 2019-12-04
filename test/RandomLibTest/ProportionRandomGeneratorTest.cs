@@ -146,7 +146,7 @@ namespace RandomLibTest
             var luckyPartialResults = rng.NonDuplicatedConsecutiveDraws(1).ToArray();
 
             //Assert
-            Assert.Equal(1, luckyPartialResults.Length);
+            Assert.Single(luckyPartialResults);
             Assert.Equal("itemOnlyOne", luckyPartialResults.First());
         }
     }

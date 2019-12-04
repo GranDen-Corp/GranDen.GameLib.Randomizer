@@ -33,7 +33,7 @@ namespace RandomLib
         /// <param name="maxValue"></param>
         /// <param name="rng"></param>
         /// <returns></returns>
-        public static float CreateRandomDouble(float minValue, float maxValue, RandomSource rng = null)
+        public static float CreateRandomFloat(float minValue, float maxValue, RandomSource rng = null)
         {
             if (rng == null)
             {
