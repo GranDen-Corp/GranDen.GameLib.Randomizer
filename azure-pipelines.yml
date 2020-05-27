@@ -40,7 +40,7 @@ stages:
       - task: DotNetCoreCLI@2
         inputs:
           command: test
-          projects: '$(testNetCoreProject)'
+          projects: '$(testProject)'
           arguments: '--configuration $(buildConfiguration)  /p:CollectCoverage=true /p:CoverletOutputFormat=cobertura /p:CoverletOutput=$(Build.SourcesDirectory)/TestResults/Coverage/'
           publishTestResults: true
         displayName: "Run Test project"
