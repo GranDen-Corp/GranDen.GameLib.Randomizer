@@ -1,0 +1,89 @@
+# ASP.NET Core
+# Build and test ASP.NET Core projects targeting .NET Core.
+# Add steps that run tests, create a NuGet package, deploy, and more:
+# https://docs.microsoft.com/azure/devops/pipelines/languages/dotnet-core
+
+trigger:
+- master
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+variables:
+  buildConfiguration: 'Release'
+  sourceProject: 'src/GranDen.GameLib.Randomizer/GranDen.GameLib.Randomizer.csproj'
+  testNetCoreProject: 'test/GranDen.GameLib.Randomizer/GranDen.GameLib.Randomizer.Test.csproj'
+
+stages:
+- stage: Build
+  displayName: Build stage
+  jobs:
+  - job: Build
+    steps:
+    - task: DotNetCoreCLI@2
+      inputs:
+        command: restore
+        projects: '$(sourceProject)'
+        feedsToUse: 'select'
+      displayName: "Restore source project's Nuget"
+    - task: DotNetCoreCLI@2
+      inputs:
+        command: build
+        projects: '$(sourceProject)'
+        arguments: '--configuration $(buildConfiguration)'
+      displayName: "Build source project"
+
+- stage: Test
+  jobs:
+  - job: Test
+    steps:
+      - task: DotNetCoreCLI@2
+        inputs:
+          command: test
+          projects: '$(testNetCoreProject)'
+          arguments: '--configuration $(buildConfiguration)  /p:CollectCoverage=true /p:CoverletOutputFormat=cobertura /p:CoverletOutput=$(Build.SourcesDirectory)/TestResults/Coverage/'
+          publishTestResults: true
+        displayName: "Run NetCore test project"
+      - task: PublishCodeCoverageResults@1
+        inputs:
+          codeCoverageTool: 'Cobertura'
+          summaryFileLocation: '$(Build.SourcesDirectory)/**/TestResults/Coverage/*.cobertura.xml'
+        displayName: "Publish code coverage report"
+
+- stage: Publish
+  jobs:
+  - job: Publish
+    steps:
+      - task: PowerShell@2
+        name: Fetch_Nuget_Ver
+        inputs:
+          pwsh: true
+          targetType: inline
+          script: |
+            $packageVer = & "$(System.DefaultWorkingDirectory)/scripts/get_build_version.ps1"
+            echo "##vso[task.setvariable variable=NugetVerMajor;]$($packageVer.Major)"
+            echo "##vso[task.setvariable variable=NugetVerMinor;]$($packageVer.Minor)"
+            echo "##vso[task.setvariable variable=NugetVerPatch;]$($packageVer.Patch)"
+            echo "##vso[task.setvariable variable=NugetVerRevis;]$($packageVer.Patch)"
+        displayName: "Fetch version number from Directory.Build.props file"
+      - task: DotNetCoreCLI@2
+        inputs:
+          command: pack
+          packagesToPack: '$(sourceProject)'
+          verbosityPack: minimal
+          configuration: 'debug'
+          includeSymbols: true
+          includesource: true
+          versioningScheme: byPrereleaseNumber
+          majorVersion: '$(NugetVerMajor)'
+          minorVersion: '$(NugetVerMinor)'
+          patchVersion: '$(NugetVerPatch)'
+        displayName: "Pack test NuGet package(s)"
+      - task: NuGetCommand@2
+        inputs:
+          command: push
+          packagesToPush: '$(Pipeline.Workspace)/**/*.nupkg'
+          nuGetFeedType: 'internal'
+          publishVstsFeed: 'GranDen'
+          allowPackageConflicts: true
+        displayName: "Publish test NuGet package to Azure Artifacts"
