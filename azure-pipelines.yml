@@ -12,7 +12,7 @@ pool:
 variables:
   buildConfiguration: 'Release'
   sourceProject: 'src/GranDen.GameLib.Randomizer/GranDen.GameLib.Randomizer.csproj'
-  testNetCoreProject: 'test/GranDen.GameLib.Randomizer/GranDen.GameLib.Randomizer.Test.csproj'
+  testProject: 'test/GranDen.GameLib.Randomizer.Test/GranDen.GameLib.Randomizer.Test.csproj'
 
 stages:
 - stage: Build
@@ -43,7 +43,7 @@ stages:
           projects: '$(testNetCoreProject)'
           arguments: '--configuration $(buildConfiguration)  /p:CollectCoverage=true /p:CoverletOutputFormat=cobertura /p:CoverletOutput=$(Build.SourcesDirectory)/TestResults/Coverage/'
           publishTestResults: true
-        displayName: "Run NetCore test project"
+        displayName: "Run Test project"
       - task: PublishCodeCoverageResults@1
         inputs:
           codeCoverageTool: 'Cobertura'
