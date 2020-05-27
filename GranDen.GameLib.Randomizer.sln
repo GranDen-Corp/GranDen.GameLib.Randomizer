@@ -5,11 +5,11 @@ VisualStudioVersion = 15.0.28307.136
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{63AAB987-6084-45EE-B6EE-51C2946BAB9B}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RandomLib", "src\RandomLib\RandomLib.csproj", "{010BEF8A-F484-4A35-B84E-1B533CEF6908}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GranDen.GameLib.Randomizer", "src\GranDen.GameLib.Randomizer\GranDen.GameLib.Randomizer.csproj", "{010BEF8A-F484-4A35-B84E-1B533CEF6908}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{2BF0007C-3830-4DB6-8A68-E4A222614C44}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RandomLibTest", "test\RandomLibTest\RandomLibTest.csproj", "{A297D5C8-4CCB-409D-B325-65784CB7ADD4}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GranDen.GameLib.Randomizer.Test", "test\GranDen.GameLib.Randomizer.Test\GranDen.GameLib.Randomizer.Test.csproj", "{A297D5C8-4CCB-409D-B325-65784CB7ADD4}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

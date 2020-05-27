@@ -7,17 +7,9 @@
             "type": "process",
             "args": [
                 "build",
-                "${workspaceFolder}/src/RandomLib/RandomLib.csproj"
-            ],
-            "problemMatcher": "$msCompile"
-        },
-        {
-            "label": "build test",
-            "command": "dotnet",
-            "type": "process",
-            "args": [
-                "build",
-                "${workspaceFolder}/test/RandomLibTest/RandomLibTest.csproj"
+                "${workspaceFolder}/test/GranDen.GameLib.Randomizer.Test/GranDen.GameLib.Randomizer.Test.csproj",
+                "/property:GenerateFullPaths=true",
+                "/consoleloggerparameters:NoSummary"
             ],
             "problemMatcher": "$msCompile"
         }

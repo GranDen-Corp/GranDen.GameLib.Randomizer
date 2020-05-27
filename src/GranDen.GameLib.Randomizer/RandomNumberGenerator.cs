@@ -2,7 +2,7 @@
 using MathNet.Numerics.Distributions;
 using MathNet.Numerics.Random;
 
-namespace RandomLib
+namespace GranDen.GameLib.Randomizer
 {
     /// <summary>
     /// Helper class for easily generate random number

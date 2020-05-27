@@ -1,7 +1,7 @@
 using Xunit;
 using Xunit.Abstractions;
 
-namespace RandomLibTest
+namespace GranDen.GameLib.Randomizer.Test
 {
     public class RandomIntTest
     {
@@ -18,7 +18,7 @@ namespace RandomLibTest
         [InlineData(-10, -1)]
         public void TestRandomInt(int minValue, int maxValue)
         {
-            var chosen = RandomLib.RandomNumberGenerator.CreateRandomInt(minValue, maxValue);
+            var chosen = RandomNumberGenerator.CreateRandomInt(minValue, maxValue);
             _output.WriteLine("chosen= {0}", chosen);
             Assert.True(chosen >= minValue && chosen <= maxValue);
         }
@@ -39,7 +39,7 @@ namespace RandomLibTest
         [InlineData(-10.0, -1.0)]
         public void TestRandomFloat(float minValue, float maxValue)
         {
-            var chosen = RandomLib.RandomNumberGenerator.CreateRandomFloat(minValue, maxValue);
+            var chosen = RandomNumberGenerator.CreateRandomFloat(minValue, maxValue);
             _output.WriteLine("chosen= {0}", chosen);
             Assert.True(chosen >= minValue && chosen <= maxValue);
         }
@@ -50,7 +50,7 @@ namespace RandomLibTest
         [InlineData(-10.0, -1.0)]
         public void TestRandomDouble(double minValue, double maxValue)
         {
-            var chosen = RandomLib.RandomNumberGenerator.CreateRandomDouble(minValue, maxValue);
+            var chosen = RandomNumberGenerator.CreateRandomDouble(minValue, maxValue);
             _output.WriteLine("chosen= {0}", chosen);
             Assert.True(chosen >= minValue && chosen <= maxValue);
         }

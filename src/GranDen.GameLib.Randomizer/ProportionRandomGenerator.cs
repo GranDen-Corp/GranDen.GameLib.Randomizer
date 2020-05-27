@@ -5,7 +5,7 @@ using System.Linq;
 using MathNet.Numerics.Distributions;
 using MathNet.Numerics.Random;
 
-namespace RandomLib
+namespace GranDen.GameLib.Randomizer
 {
     /// <summary>
     /// Random select choice based on proportional probability

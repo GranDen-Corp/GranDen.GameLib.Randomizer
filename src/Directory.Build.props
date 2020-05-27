@@ -1,0 +1,9 @@
+<Project>
+  <PropertyGroup>
+    <Version Condition=" '$(Version)'=='' ">1.0.9</Version>
+    <PackageReleaseNotes>1.0.9 : 
+      &#xD;&#xA;Update MathNet.Numerics lib version
+      &#xD;&#xA;
+    </PackageReleaseNotes>
+  </PropertyGroup>
+</Project>

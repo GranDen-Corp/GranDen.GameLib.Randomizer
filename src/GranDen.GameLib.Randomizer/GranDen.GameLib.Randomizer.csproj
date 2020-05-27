@@ -1,32 +1,35 @@
 <Project Sdk="Microsoft.NET.Sdk">
+
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
-    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
+    <Title>Random Number Generator Game Library</Title>
     <Company>GranDen Inc.</Company>
     <Authors>Isak Pao</Authors>
     <Description>Random number generator and some utility functions for randomly chose items in collection via MathNet.Numerics</Description>
-    <Copyright>Copyright (c) 2019 GranDen Corp.(狂點軟體開發)</Copyright>
+    <Copyright>Copyright (c) 2020 GranDen Corp.(狂點軟體開發)</Copyright>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
-    <RepositoryUrl>https://github.com/GranDen-Corp/RandomLib.git</RepositoryUrl>
+    <PackageProjectUrl>https://github.com/GranDen-Corp/GranDen.GameLib.Randomizer</PackageProjectUrl>
     <PublishRepositoryUrl>true</PublishRepositoryUrl>
+    <RepositoryUrl>https://github.com/GranDen-Corp/GranDen.GameLib.Randomizer.git</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
-    <PublishRepositoryUrl>true</PublishRepositoryUrl>
     <IncludeSymbols>true</IncludeSymbols>
     <SymbolPackageFormat>snupkg</SymbolPackageFormat>
-    <EmbedUntrackedSources>true</EmbedUntrackedSources>
-    <PackageTags>rng</PackageTags>
-    <PackageProjectUrl>https://www.nuget.org/packages/RandomLib/</PackageProjectUrl>
-    <Version>1.0.8</Version>
-    <PackageReleaseNotes>v1.0.8 : Update MathNet.Numerics to v4.9.0 </PackageReleaseNotes>
+    <PackageTags>game-lib,rng</PackageTags>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <DocumentationFile>./RandomLib.xml</DocumentationFile>
+    <DocumentationFile>./GranDen.GameLib.Randomizer.xml</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-    <DocumentationFile>./RandomLib.xml</DocumentationFile>
+    <DocumentationFile>./GranDen.GameLib.Randomizer.xml</DocumentationFile>
   </PropertyGroup>
+
   <ItemGroup>
-    <PackageReference Include="MathNet.Numerics" Version="4.9.0" />
+    <None Remove="GranDen.GameLib.Randomizer.xml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="MathNet.Numerics" Version="4.11.0" />
     <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.0.0" PrivateAssets="All" />
   </ItemGroup>
 </Project>

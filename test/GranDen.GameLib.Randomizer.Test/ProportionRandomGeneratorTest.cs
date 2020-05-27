@@ -4,7 +4,7 @@ using System.Linq;
 using Xunit;
 using Xunit.Abstractions;
 
-namespace RandomLibTest
+namespace GranDen.GameLib.Randomizer.Test
 {
     public class ProportionRandomGeneratorTest
     {
@@ -28,7 +28,7 @@ namespace RandomLibTest
                 [prize2] = 50,
                 [prize3] = 0.1,
             };
-            var rng = new RandomLib.ProportionRandomGenerator<Prize> { ProbabilityEntries = prizeDict };
+            var rng = new ProportionRandomGenerator<Prize> { ProbabilityEntries = prizeDict };
 
             //Act
             var luckyOne = rng.Draw();
@@ -52,7 +52,7 @@ namespace RandomLibTest
             {
                 parameters.Add(item, 1);
             }
-            var rng = new RandomLib.ProportionRandomGenerator<string> { ProbabilityEntries = parameters };
+            var rng = new ProportionRandomGenerator<string> { ProbabilityEntries = parameters };
 
             //Act
             var luckyPartialResults = rng.DuplicatedConsecutiveDraws(3).ToArray();
@@ -80,7 +80,7 @@ namespace RandomLibTest
             //Arrange
             var parameter = new SortedDictionary<string, double>();
             parameter.Add("itemOnlyOne", 99.9999);
-            var rng = new RandomLib.ProportionRandomGenerator<string> { ProbabilityEntries = parameter };
+            var rng = new ProportionRandomGenerator<string> { ProbabilityEntries = parameter };
 
             //Act
             var luckyDrawResults = rng.DuplicatedConsecutiveDraws(10).ToArray();
@@ -106,7 +106,7 @@ namespace RandomLibTest
             {
                 parameters.Add(item, 1);
             }
-            var rng = new RandomLib.ProportionRandomGenerator<string> { ProbabilityEntries = parameters };
+            var rng = new ProportionRandomGenerator<string> { ProbabilityEntries = parameters };
 
             //Act
             var luckyPartialResults = rng.NonDuplicatedConsecutiveDraws(4).ToArray();
@@ -140,7 +140,7 @@ namespace RandomLibTest
             //Arrange
             var parameter = new SortedDictionary<string, double>();
             parameter.Add("itemOnlyOne", 99.9999);
-            var rng = new RandomLib.ProportionRandomGenerator<string> { ProbabilityEntries = parameter };
+            var rng = new ProportionRandomGenerator<string> { ProbabilityEntries = parameter };
 
             //Act
             var luckyPartialResults = rng.NonDuplicatedConsecutiveDraws(1).ToArray();

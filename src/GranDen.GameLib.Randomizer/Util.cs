@@ -1,6 +1,6 @@
 ﻿using MathNet.Numerics.Random;
 
-namespace RandomLib
+namespace GranDen.GameLib.Randomizer
 {
     /// <summary>
     /// Utility class
