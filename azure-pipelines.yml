@@ -4,19 +4,23 @@
 # https://docs.microsoft.com/azure/devops/pipelines/languages/dotnet-core
 
 trigger:
+- dev
 - master
+- feature/*
+- bugfix/*
 
 pool:
   vmImage: 'ubuntu-latest'
 
 variables:
   buildConfiguration: 'Release'
-  sourceProject: 'src/GranDen.GameLib.Randomizer/GranDen.GameLib.Randomizer.csproj'
-  testProject: 'test/GranDen.GameLib.Randomizer.Test/GranDen.GameLib.Randomizer.Test.csproj'
+  sourceProject: 'src/**/*.csproj'
+  testNetCoreProject: 'test/**/*Test.csproj'
 
 stages:
-- stage: Build
-  displayName: Build stage
+- stage: Build_stage
+  condition: and(succeeded(), eq(variables['Build.Reason'], 'PullRequest'))
+  displayName: Build source project(s)
   jobs:
   - job: Build
     steps:
@@ -25,7 +29,7 @@ stages:
         command: restore
         projects: '$(sourceProject)'
         feedsToUse: 'select'
-      displayName: "Restore source project's Nuget"
+      displayName: "Restore source project's NuGet package(s)"
     - task: DotNetCoreCLI@2
       inputs:
         command: build
@@ -33,24 +37,31 @@ stages:
         arguments: '--configuration $(buildConfiguration)'
       displayName: "Build source project"
 
-- stage: Test
+- stage: Test_stage
+  dependsOn: []
+  displayName: Run test project(s)
   jobs:
   - job: Test
     steps:
       - task: DotNetCoreCLI@2
         inputs:
           command: test
-          projects: '$(testProject)'
-          arguments: '--configuration $(buildConfiguration)  /p:CollectCoverage=true /p:CoverletOutputFormat=cobertura /p:CoverletOutput=$(Build.SourcesDirectory)/TestResults/Coverage/'
+          projects: '$(testNetCoreProject)'
+          arguments: '--configuration $(buildConfiguration)  /p:CollectCoverage=true'
           publishTestResults: true
-        displayName: "Run Test project"
+        displayName: "Run NetCore test project"
       - task: PublishCodeCoverageResults@1
         inputs:
           codeCoverageTool: 'Cobertura'
-          summaryFileLocation: '$(Build.SourcesDirectory)/**/TestResults/Coverage/*.cobertura.xml'
+          summaryFileLocation: '$(Build.SourcesDirectory)/**/TestResult/Coverage/*.cobertura.xml'
+          failIfCoverageEmpty: true
         displayName: "Publish code coverage report"
 
-- stage: Publish
+- stage: Publish_stage
+  condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/dev'), not(eq(variables['Build.Reason'], 'PullRequest')))
+  dependsOn:
+    - Test_stage
+  displayName: Publish debug version NuGet package(s)
   jobs:
   - job: Publish
     steps:
