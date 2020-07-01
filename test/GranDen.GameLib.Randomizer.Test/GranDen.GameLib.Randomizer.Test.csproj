@@ -5,7 +5,6 @@
     <IsPackable>false</IsPackable>
     <UseSourceLink>true</UseSourceLink>
     <CoverletOutputFormat>cobertura</CoverletOutputFormat>
-    <Exclude>[xunit.*]*</Exclude>
     <CoverletOutput>TestResult/Coverage/</CoverletOutput>
     <CollectCoverage>false</CollectCoverage>
   </PropertyGroup>
@@ -14,7 +13,6 @@
     <Compile Remove="TestResult\**" />
     <EmbeddedResource Remove="TestResult\**" />
     <None Remove="TestResult\**" />
-    <None Remove="TestResult\Coverage\coverage.cobertura.xml" />
   </ItemGroup>
 
   <ItemGroup>

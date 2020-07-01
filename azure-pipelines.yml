@@ -38,7 +38,9 @@ stages:
       displayName: "Build source project"
 
 - stage: Test_stage
-  dependsOn: []
+  condition: and(not(failed('Build_stage')), in(variables['Build.Reason'], 'IndividualCI', 'BatchedCI', 'PullRequest'))
+  dependsOn: 
+    - Build_stage
   displayName: Run test project(s)
   jobs:
   - job: Test
@@ -58,7 +60,7 @@ stages:
         displayName: "Publish code coverage report"
 
 - stage: Publish_stage
-  condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/dev'), not(eq(variables['Build.Reason'], 'PullRequest')))
+  condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/dev'))
   dependsOn:
     - Test_stage
   displayName: Publish debug version NuGet package(s)
