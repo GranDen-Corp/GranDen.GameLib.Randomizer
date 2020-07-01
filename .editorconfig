@@ -1,0 +1,21 @@
+root = true
+
+[*]
+end_of_line = crlf
+
+[*.xml]
+indent_style = space
+
+[*.xml]
+indent_style = space
+
+[*.ps1]
+indent_style = space
+indent_size = 2
+end_of_line = lf
+charset = utf-8
+trim_trailing_whitespace = true
+insert_final_newline = true
+
+[*.md]
+trim_trailing_whitespace = false
