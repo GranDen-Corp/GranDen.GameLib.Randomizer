@@ -4,8 +4,8 @@
 # https://docs.microsoft.com/azure/devops/pipelines/languages/dotnet-core
 
 trigger:
-- dev
 - master
+- dev*
 - feature/*
 - bugfix/*
 
@@ -60,7 +60,7 @@ stages:
         displayName: "Publish code coverage report"
 
 - stage: Publish_stage
-  condition: and(not(failed('Build_stage')), succeeded('Test_stage'), eq(variables['Build.SourceBranch'], 'refs/heads/dev'))
+  condition: and(not(failed('Build_stage')), succeeded('Test_stage'), or(startsWith(variables['Build.SourceBranch'], 'refs/heads/dev'), eq(variables['Build.Reason'], 'PullRequest')))
   dependsOn:
     - Build_stage
     - Test_stage
