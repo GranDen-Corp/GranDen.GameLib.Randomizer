@@ -1,5 +1,4 @@
-﻿using System;
-using MathNet.Numerics.Distributions;
+﻿using MathNet.Numerics.Distributions;
 using MathNet.Numerics.Random;
 
 namespace GranDen.GameLib.Randomizer
