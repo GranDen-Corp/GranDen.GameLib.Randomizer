@@ -2,102 +2,136 @@
 # Build and test ASP.NET Core projects targeting .NET Core.
 # Add steps that run tests, create a NuGet package, deploy, and more:
 # https://docs.microsoft.com/azure/devops/pipelines/languages/dotnet-core
-
 trigger:
-- master
-- dev*
-- feature/*
-- bugfix/*
-
+  - master
+  - dev*
+  - feature/*
+  - bugfix/*
 pool:
-  vmImage: 'ubuntu-latest'
-
+  vmImage: ubuntu-latest
 variables:
-  buildConfiguration: 'Release'
-  sourceProject: 'src/**/*.csproj'
-  testNetCoreProject: 'test/**/*Test.csproj'
-
+  sdkVersion: 3.1.x
+  buildConfiguration: Release
+  sourceProject: src/**/*.csproj
+  testNetCoreProject: test/**/*Test.csproj
 stages:
-- stage: Build_stage
-  condition: and(succeeded(), eq(variables['Build.Reason'], 'PullRequest'))
-  displayName: Build source project(s)
-  jobs:
-  - job: Build
-    steps:
-    - task: DotNetCoreCLI@2
-      inputs:
-        command: restore
-        projects: '$(sourceProject)'
-        feedsToUse: 'select'
-      displayName: "Restore source project's NuGet package(s)"
-    - task: DotNetCoreCLI@2
-      inputs:
-        command: build
-        projects: '$(sourceProject)'
-        arguments: '--configuration $(buildConfiguration)'
-      displayName: "Build source project"
+  - stage: Build_stage
+    condition: 'and(succeeded(), eq(variables[''Build.Reason''], ''PullRequest''))'
+    displayName: Build source project(s)
+    jobs:
+      - job: Build
+        steps:
+          - task: UseDotNet@2
+            displayName: Use .NET 3.1 SDK
+            inputs:
+              version: $(sdkVersion)
+              includePreviewVersions: false
+              packageType: sdk
+          - task: DotNetCoreCLI@2
+            displayName: Restore source project's NuGet package(s)
+            inputs:
+              command: restore
+              projects: $(sourceProject)
+              feedsToUse: select
+          - task: DotNetCoreCLI@2
+            displayName: Build source project
+            inputs:
+              command: build
+              projects: $(sourceProject)
+              arguments: '--configuration $(buildConfiguration)'
+  - stage: Test_stage
+    condition: >-
+      and(not(failed('Build_stage')), in(variables['Build.Reason'],
+      'IndividualCI', 'BatchedCI', 'PullRequest'))
+    dependsOn:
+      - Build_stage
+    displayName: Run test project(s)
+    jobs:
+      - job: Test
+        steps:
+          - task: UseDotNet@2
+            displayName: Use .NET 3.1 SDK
+            inputs:
+              version: $(sdkVersion)
+              includePreviewVersions: false
+              packageType: sdk
+          - task: DotNetCoreCLI@2
+            inputs:
+              command: test
+              projects: $(testNetCoreProject)
+              arguments: '--configuration $(buildConfiguration)  /p:CollectCoverage=true'
+              publishTestResults: true
+            displayName: Run NetCore test project
+          - task: PublishCodeCoverageResults@1
+            inputs:
+              codeCoverageTool: Cobertura
+              summaryFileLocation: $(Build.SourcesDirectory)/**/TestResult/Coverage/*.cobertura.xml
+              failIfCoverageEmpty: true
+            displayName: Publish code coverage report
+  - stage: Publish_stage
+    condition: >-
+      and(not(failed('Build_stage')), succeeded('Test_stage'),
+      or(startsWith(variables['Build.SourceBranch'], 'refs/heads/dev'),
+      eq(variables['Build.Reason'], 'PullRequest')))
+    dependsOn:
+      - Build_stage
+      - Test_stage
+    displayName: Publish debug version NuGet package(s)
+    pool:
+      vmImage: windows-latest
+    jobs:
+      - job: Publish
+        steps:
+          - task: UseDotNet@2
+            displayName: Use .NET 3.1 SDK
+            inputs:
+              version: $(sdkVersion)
+              includePreviewVersions: false
+              packageType: sdk
+          - task: PowerShell@2
+            displayName: Fetch version number from Directory.Build.props file
+            inputs:
+              pwsh: true
+              targetType: inline
+              script: >
+                $packageVer = &
+                "$(System.DefaultWorkingDirectory)/scripts/get_build_version.ps1"
 
-- stage: Test_stage
-  condition: and(not(failed('Build_stage')), in(variables['Build.Reason'], 'IndividualCI', 'BatchedCI', 'PullRequest'))
-  dependsOn: 
-    - Build_stage
-  displayName: Run test project(s)
-  jobs:
-  - job: Test
-    steps:
-      - task: DotNetCoreCLI@2
-        inputs:
-          command: test
-          projects: '$(testNetCoreProject)'
-          arguments: '--configuration $(buildConfiguration)  /p:CollectCoverage=true'
-          publishTestResults: true
-        displayName: "Run NetCore test project"
-      - task: PublishCodeCoverageResults@1
-        inputs:
-          codeCoverageTool: 'Cobertura'
-          summaryFileLocation: '$(Build.SourcesDirectory)/**/TestResult/Coverage/*.cobertura.xml'
-          failIfCoverageEmpty: true
-        displayName: "Publish code coverage report"
+                echo "##vso[task.setvariable
+                variable=NugetVerMajor;]$($packageVer.Major)"
 
-- stage: Publish_stage
-  condition: and(not(failed('Build_stage')), succeeded('Test_stage'), or(startsWith(variables['Build.SourceBranch'], 'refs/heads/dev'), eq(variables['Build.Reason'], 'PullRequest')))
-  dependsOn:
-    - Build_stage
-    - Test_stage
-  displayName: Publish debug version NuGet package(s)
-  jobs:
-  - job: Publish
-    steps:
-      - task: PowerShell@2
-        name: Fetch_Nuget_Ver
-        inputs:
-          pwsh: true
-          targetType: inline
-          script: |
-            $packageVer = & "$(System.DefaultWorkingDirectory)/scripts/get_build_version.ps1"
-            echo "##vso[task.setvariable variable=NugetVerMajor;]$($packageVer.Major)"
-            echo "##vso[task.setvariable variable=NugetVerMinor;]$($packageVer.Minor)"
-            echo "##vso[task.setvariable variable=NugetVerPatch;]$($packageVer.Patch)"
-            echo "##vso[task.setvariable variable=NugetVerRevis;]$($packageVer.Patch)"
-        displayName: "Fetch version number from Directory.Build.props file"
-      - task: DotNetCoreCLI@2
-        inputs:
-          command: pack
-          packagesToPack: '$(sourceProject)'
-          verbosityPack: minimal
-          configuration: 'debug'
-          includeSymbols: true
-          includesource: true
-          versioningScheme: byPrereleaseNumber
-          majorVersion: '$(NugetVerMajor)'
-          minorVersion: '$(NugetVerMinor)'
-          patchVersion: '$(NugetVerPatch)'
-        displayName: "Pack test NuGet package(s)"
-      - task: NuGetCommand@2
-        inputs:
-          command: push
-          packagesToPush: '$(Pipeline.Workspace)/**/*.nupkg'
-          nuGetFeedType: 'internal'
-          publishVstsFeed: 'GranDen'
-          allowPackageConflicts: true
-        displayName: "Publish test NuGet package to Azure Artifacts"
+                echo "##vso[task.setvariable
+                variable=NugetVerMinor;]$($packageVer.Minor)"
+
+                echo "##vso[task.setvariable
+                variable=NugetVerPatch;]$($packageVer.Patch)"
+
+                echo "##vso[task.setvariable
+                variable=NugetVerRevis;]$($packageVer.Patch)"
+          - task: DotNetCoreCLI@2
+            displayName: Pack test NuGet package(s)
+            inputs:
+              command: pack
+              packagesToPack: $(sourceProject)
+              verbosityPack: minimal
+              configuration: debug
+              includeSymbols: true
+              includesource: true
+              versioningScheme: byPrereleaseNumber
+              majorVersion: $(NugetVerMajor)
+              minorVersion: $(NugetVerMinor)
+              patchVersion: $(NugetVerPatch)
+          - task: DotNetCoreCLI@2
+            displayName: Publish test NuGet package to Azure Artifacts
+            inputs:
+              command: push
+              packagesToPush: >-
+                $(Build.ArtifactStagingDirectory)/**/*.nupkg;$(Build.ArtifactStagingDirectory)/**/*.snupkg;!$(Build.ArtifactStagingDirectory)/**/*.symbols.nupkg
+              nuGetFeedType: internal
+              publishVstsFeed: GranDen
+          - task: PublishSymbols@2
+            displayName: 'Publish pdb file(s)'
+            inputs:
+              IndexSources: false,
+              SearchPattern: '**/src/**/bin/**/*.pdb'
+              SymbolServerType: TeamServices
