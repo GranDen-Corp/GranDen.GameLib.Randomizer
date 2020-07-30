@@ -28,7 +28,7 @@ namespace GranDen.GameLib.Randomizer.Test
                 [prize2] = 50,
                 [prize3] = 0.1,
             };
-            var rng = new ProportionRandomGenerator<Prize> { ProbabilityEntries = prizeDict };
+            var rng = new ProportionRandomGenerator<Prize> {ProbabilityEntries = prizeDict};
 
             //Act
             var luckyOne = rng.Draw();
@@ -47,12 +47,14 @@ namespace GranDen.GameLib.Randomizer.Test
             {
                 chosePool.Add($"item{i:D2}");
             }
+
             var parameters = new SortedDictionary<string, double>();
             foreach (var item in chosePool)
             {
                 parameters.Add(item, 1);
             }
-            var rng = new ProportionRandomGenerator<string> { ProbabilityEntries = parameters };
+
+            var rng = new ProportionRandomGenerator<string> {ProbabilityEntries = parameters};
 
             //Act
             var luckyPartialResults = rng.DuplicatedConsecutiveDraws(3).ToArray();
@@ -80,7 +82,7 @@ namespace GranDen.GameLib.Randomizer.Test
             //Arrange
             var parameter = new SortedDictionary<string, double>();
             parameter.Add("itemOnlyOne", 99.9999);
-            var rng = new ProportionRandomGenerator<string> { ProbabilityEntries = parameter };
+            var rng = new ProportionRandomGenerator<string> {ProbabilityEntries = parameter};
 
             //Act
             var luckyDrawResults = rng.DuplicatedConsecutiveDraws(10).ToArray();
@@ -101,12 +103,14 @@ namespace GranDen.GameLib.Randomizer.Test
             {
                 chosePool.Add($"item{i:D2}");
             }
+
             var parameters = new SortedDictionary<string, double>();
             foreach (var item in chosePool)
             {
                 parameters.Add(item, 1);
             }
-            var rng = new ProportionRandomGenerator<string> { ProbabilityEntries = parameters };
+
+            var rng = new ProportionRandomGenerator<string> {ProbabilityEntries = parameters};
 
             //Act
             var luckyPartialResults = rng.NonDuplicatedConsecutiveDraws(4).ToArray();
@@ -140,7 +144,7 @@ namespace GranDen.GameLib.Randomizer.Test
             //Arrange
             var parameter = new SortedDictionary<string, double>();
             parameter.Add("itemOnlyOne", 99.9999);
-            var rng = new ProportionRandomGenerator<string> { ProbabilityEntries = parameter };
+            var rng = new ProportionRandomGenerator<string> {ProbabilityEntries = parameter};
 
             //Act
             var luckyPartialResults = rng.NonDuplicatedConsecutiveDraws(1).ToArray();
@@ -155,7 +159,7 @@ namespace GranDen.GameLib.Randomizer.Test
 
     internal class Prize : IComparable
     {
-        public string Msg { get; set; }
+        private string Msg { get; }
 
         public Prize(string msg)
         {
@@ -168,6 +172,7 @@ namespace GranDen.GameLib.Randomizer.Test
             {
                 return string.Compare(Msg, input.Msg, StringComparison.Ordinal);
             }
+
             throw new Exception("object cannot convert to Prize!");
         }
 
@@ -177,5 +182,5 @@ namespace GranDen.GameLib.Randomizer.Test
         }
     }
 
-    #endregion     
+    #endregion
 }

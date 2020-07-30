@@ -5,7 +5,7 @@ namespace GranDen.GameLib.Randomizer
     /// <summary>
     /// Utility class
     /// </summary>
-    public class Util
+    public static class Util
     {
         /// <summary>
         /// Create a default Math.NET Random seed source.

@@ -6,7 +6,7 @@ namespace GranDen.GameLib.Randomizer
     /// <summary>
     /// Helper class for easily generate random number
     /// </summary>
-    public class RandomNumberGenerator
+    public static class RandomNumberGenerator
     {
         /// <summary>
         /// Generate a random Integer from [minValue , maxValue]
@@ -39,7 +39,7 @@ namespace GranDen.GameLib.Randomizer
                 rng = Util.DefaultRandomSource(true);
             }
 
-            return (float) ContinuousUniform.Sample(rng, minValue, maxValue);
+            return (float)ContinuousUniform.Sample(rng, minValue, maxValue);
         }
 
         /// <summary>
